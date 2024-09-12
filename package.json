@@ -1,7 +1,7 @@
 {
   "name": "munees.co.in",
   "version": "1.0.0",
-  "description": "CV/Resume Starter Template",
+  "description": "Turning messy code and tangled problems into smooth solutions, like magic—minus the wand, but with a lot more coffee!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,10 +10,13 @@
     "resume",
     "cv",
     "portfolio",
-    "mix_design",
+    "munees",
+    "munees.co.in",
+    "munees m",
+    "muhammed munees m",
     "template"
   ],
-  "author": "mix_design",
+  "author": "munees.co.in",
   "license": "ISC",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
