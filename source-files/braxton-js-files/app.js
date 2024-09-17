@@ -305,24 +305,29 @@ $(function() {
   // --------------------------------------------- //
   // Contact Form Start
   // --------------------------------------------- //
-  $("#contact-form").submit(function() { //Change
-		var th = $(this);
-		$.ajax({
-			type: "POST",
-			url: "mail.php", //Change
-			data: th.serialize()
-		}).done(function() {
-      $('.contact').find('.form').addClass('is-hidden');
-      $('.contact').find('.form__reply').addClass('is-visible');
-			setTimeout(function() {
-				// Done Functions
-        $('.contact').find('.form__reply').removeClass('is-visible');
-        $('.contact').find('.form').delay(300).removeClass('is-hidden');
-				th.trigger("reset");
-			}, 5000);
-		});
-		return false;
-	});
+  $("#contact-form").submit(function() { // Bind to the form's submit event
+    var th = $(this); // Cache the jQuery object for the form
+
+    $.ajax({
+        type: "POST", // HTTP method
+        url: "mail.php", // URL of the PHP script to handle the form data
+        data: th.serialize() // Serialize the form data for submission
+    }).done(function() {
+        // Actions to perform when the AJAX request is successful
+        $('.contact').find('.form').addClass('is-hidden'); // Hide the form
+        $('.contact').find('.form__reply').addClass('is-visible'); // Show the reply message
+
+        setTimeout(function() {
+            // Actions to perform after a delay
+            $('.contact').find('.form__reply').removeClass('is-visible'); // Hide the reply message
+            $('.contact').find('.form').delay(300).removeClass('is-hidden'); // Show the form again
+            th.trigger("reset"); // Reset the form fields
+        }, 5000); // Delay of 5000 milliseconds (5 seconds)
+    });
+
+    return false; // Prevent the default form submission
+});
+
   // --------------------------------------------- //
   // Contact Form End
   // --------------------------------------------- //

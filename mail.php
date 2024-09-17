@@ -1,12 +1,15 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
 // Enable error reporting for debugging purposes
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
     $project_name = trim($_POST['project_name']);
     $admin_email = trim($_POST['admin_email']);
     $form_subject = trim($_POST['form_subject']);
@@ -15,14 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['E-mail']);
     $phone = trim($_POST['Phone']);
     $message_content = trim($_POST['Message']);
-    
-    // Check for required fields
+
     if (empty($name) || empty($email) || empty($phone) || empty($message_content)) {
         echo 'All fields are required.';
         exit;
     }
 
-    // Build the email message
     $message = "
     <html>
     <body>
@@ -57,20 +58,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </html>
     ";
 
-    // Email headers
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
-    $headers .= "From: {$name} <{$email}>" . "\r\n";
-    $headers .= "Reply-To: {$email}" . "\r\n";
+    $mail = new PHPMailer(true);
 
-    // Send the email
-    if (mail($admin_email, $form_subject, $message, $headers)) {
+    try {
+        // Server settings
+        $mail->isSMTP();                                          // Send using SMTP
+        $mail->Host       = 'smtp.example.com';                   // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
+        $mail->Username   = 'your-email@example.com';             // SMTP username
+        $mail->Password   = 'your-email-password';                // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+        $mail->Port       = 587;                                  // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom($email, $name);
+        $mail->addAddress($admin_email);
+
+        // Content
+        $mail->isHTML(true);                                      // Set email format to HTML
+        $mail->Subject = $form_subject;
+        $mail->Body    = $message;
+
+        $mail->send();
         echo 'Message sent successfully.';
-    } else {
-        echo 'Message could not be sent. Please try again later.';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
     echo 'Invalid request.';
 }
-
 ?>
