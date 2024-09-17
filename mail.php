@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['E-mail']);
     $phone = trim($_POST['Phone']);
     $message_content = trim($_POST['Message']);
-
+	echo $message_content;
     if (empty($name) || empty($email) || empty($phone) || empty($message_content)) {
         echo 'All fields are required.';
         exit;
