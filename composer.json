@@ -1,0 +1,16 @@
+{
+    "name": "user/munees.co.in",
+    "autoload": {
+        "psr-4": {
+            "User\\MuneesCoIn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "munees"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
