@@ -306,6 +306,7 @@ $(function() {
   // Contact Form Start
   // --------------------------------------------- //
   $("#contact-form").submit(function() { //Change
+    alert("Thank you for your message!");
 		var th = $(this);
 		$.ajax({
 			type: "POST",

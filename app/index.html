@@ -1080,76 +1080,40 @@
               <!-- Reply Messages End -->
 
               <!-- Contact Form Start -->
-              <form class="form contact-form" id="contact-form">
+              <form class="form contact-form" id="contact-form"  method="POST">
                 <!-- Hidden Required Fields -->
-                <input
-                  type="hidden"
-                  name="project_name"
-                  value="Starter Template"
-                />
-                <input
-                  type="hidden"
-                  name="admin_email"
-                  value="muneesmmm@gmail.com"
-                />
-                <input
-                  type="hidden"
-                  name="form_subject"
-                  value="Contact Form Message"
-                />
+                <input type="hidden" name="project_name" value="Starter Template" />
+                <input type="hidden" name="admin_email" value="muneesmmm@gmail.com" />
+                <input type="hidden" name="form_subject" value="Contact Form Message" />
                 <!-- END Hidden Required Fields-->
+            
                 <div class="container-fluid p-0">
-                  <div class="row gx-0">
-                    <div class="col-12 col-md-6 form__item animate-in-up">
-                      <input
-                        type="text"
-                        name="Name"
-                        placeholder="Your Name*"
-                        required
-                      />
+                    <div class="row gx-0">
+                        <div class="col-12 col-md-6 form__item animate-in-up">
+                            <input type="text" name="Name" placeholder="Your Name*" required />
+                        </div>
+                        <div class="col-12 col-md-6 form__item animate-in-up">
+                            <input type="text" name="Company" placeholder="Company Name" />
+                        </div>
+                        <div class="col-12 col-md-6 form__item animate-in-up">
+                            <input type="email" name="E-mail" placeholder="Email Address*" required />
+                        </div>
+                        <div class="col-12 col-md-6 form__item animate-in-up">
+                            <input type="tel" name="Phone" placeholder="Phone Number*" required />
+                        </div>
+                        <div class="col-12 form__item animate-in-up">
+                            <textarea name="Message" placeholder="A Few Words*" required></textarea>
+                        </div>
+                        <div class="col-12 form__item animate-in-up">
+                            <button class="btn btn-default btn-hover btn-hover-accent" type="submit">
+                                <span class="btn-caption">Send Message</span>
+                                <i class="ph-bold ph-paper-plane-tilt"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6 form__item animate-in-up">
-                      <input
-                        type="text"
-                        name="Company"
-                        placeholder="Company Name"
-                      />
-                    </div>
-                    <div class="col-12 col-md-6 form__item animate-in-up">
-                      <input
-                        type="email"
-                        name="E-mail"
-                        placeholder="Email Adress*"
-                        required
-                      />
-                    </div>
-                    <div class="col-12 col-md-6 form__item animate-in-up">
-                      <input
-                        type="tel"
-                        name="Phone"
-                        placeholder="Phone Number*"
-                        required
-                      />
-                    </div>
-                    <div class="col-12 form__item animate-in-up">
-                      <textarea
-                        name="Message"
-                        placeholder="A Few Words*"
-                        required
-                      ></textarea>
-                    </div>
-                    <div class="col-12 form__item animate-in-up">
-                      <button
-                        class="btn btn-default btn-hover btn-hover-accent"
-                        type="submit"
-                      >
-                        <span class="btn-caption">Send Message</span>
-                        <i class="ph-bold ph-paper-plane-tilt"></i>
-                      </button>
-                    </div>
-                  </div>
                 </div>
-              </form>
+            </form>
+            
               <!-- Contact Form End -->
             </div>
           </div>

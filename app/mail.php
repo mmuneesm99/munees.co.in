@@ -1,52 +1,90 @@
 <?php
 
-$method = $_SERVER['REQUEST_METHOD'];
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-//Script Foreach
-$c = true;
-if ( $method === 'POST' ) {
+require 'vendor/autoload.php';
 
-	$project_name = trim($_POST["project_name"]);
-	$admin_email  = trim($_POST["admin_email"]);
-	$form_subject = trim($_POST["form_subject"]);
+// Enable error reporting for debugging purposes
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-	foreach ( $_POST as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "form_subject" ) {
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
-		}
-	}
-} else if ( $method === 'GET' ) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $project_name = trim($_POST['project_name']);
+    $admin_email = trim($_POST['admin_email']);
+    $form_subject = trim($_POST['form_subject']);
+    $name = trim($_POST['Name']);
+    $company = trim($_POST['Company']);
+    $email = trim($_POST['E-mail']);
+    $phone = trim($_POST['Phone']);
+    $message_content = trim($_POST['Message']);
 
-	$project_name = trim($_GET["project_name"]);
-	$admin_email  = trim($_GET["admin_email"]);
-	$form_subject = trim($_GET["form_subject"]);
+    if (empty($name) || empty($email) || empty($phone) || empty($message_content)) {
+        echo 'All fields are required.';
+        exit;
+    }
 
-	foreach ( $_GET as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "form_subject" ) {
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
-		}
-	}
+    $message = "
+    <html>
+    <body>
+    <h2>Contact Form Submission</h2>
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Details</th>
+        </tr>
+        <tr>
+            <td><strong>Name:</strong></td>
+            <td>{$name}</td>
+        </tr>
+        <tr>
+            <td><strong>Company:</strong></td>
+            <td>{$company}</td>
+        </tr>
+        <tr>
+            <td><strong>Email:</strong></td>
+            <td>{$email}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone:</strong></td>
+            <td>{$phone}</td>
+        </tr>
+        <tr>
+            <td><strong>Message:</strong></td>
+            <td>{$message_content}</td>
+        </tr>
+    </table>
+    </body>
+    </html>
+    ";
+
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->isSMTP();                                          // Send using SMTP
+        $mail->Host       = 'smtp.example.com';                   // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
+        $mail->Username   = 'your-email@example.com';             // SMTP username
+        $mail->Password   = 'your-email-password';                // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+        $mail->Port       = 587;                                  // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom($email, $name);
+        $mail->addAddress($admin_email);
+
+        // Content
+        $mail->isHTML(true);                                      // Set email format to HTML
+        $mail->Subject = $form_subject;
+        $mail->Body    = $message;
+
+        $mail->send();
+        echo 'Message sent successfully.';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+} else {
+    echo 'Invalid request.';
 }
-
-$message = "<table style='width: 100%;'>$message</table>";
-
-function adopt($text) {
-	return '=?UTF-8?B?'.Base64_encode($text).'?=';
-}
-
-$headers = "MIME-Version: 1.0" . PHP_EOL .
-"Content-Type: text/html; charset=utf-8" . PHP_EOL .
-'From: '.adopt($project_name).' <'.$admin_email.'>' . PHP_EOL .
-'Reply-To: '.$admin_email.'' . PHP_EOL;
-
-mail($admin_email, adopt($form_subject), $message, $headers );
+?>
